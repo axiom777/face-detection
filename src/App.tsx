@@ -17,7 +17,12 @@ async function detectFace(
   image: HTMLImageElement,
   setState: Function
 ): Promise<FullFaceDescriptions> {
-  const MODEL_URL = "/weights";
+  console.log(process.env.NODE_ENV);
+  const MODEL_URL =
+    process.env.NODE_ENV === "development"
+      ? "/weights"
+      : "https://axiom777.github.io/face-detection/weights";
+
   setState({ detectionStatus: "Load SsdModel" });
 
   await faceapi.loadSsdMobilenetv1Model(MODEL_URL);
@@ -108,7 +113,17 @@ class App extends React.Component<Props, State> {
     if (image !== null) {
       const stateCallBack = this.setState.bind(this);
       const result = await detectFace(image, stateCallBack);
-      this.setState({ fullFaceDescriptions: result });
+      const score = result.length
+        ? result.reduce((acc, v, i) => {
+            acc += ` Detection ${i} score: ${v.detection.score}`;
+            return acc;
+          }, "")
+        : "Face not found";
+
+      this.setState({
+        fullFaceDescriptions: result,
+        detectionStatus: score,
+      });
     }
   }
 
