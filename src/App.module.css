@@ -11,7 +11,6 @@
   background-color: lightgray;
   display: block;
   border-radius: 20px;
-  overflow: hidden;
 }
 
 .Avatar img {
@@ -22,9 +21,10 @@
 
 .Avatar canvas {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 1;
 }
 
@@ -34,6 +34,42 @@
   flex-direction: column;
 }
 
-.buttons button:not(:last-child) {
+.buttons *:not(:last-child) {
   margin-bottom: 10px;
+}
+
+.modal {
+  position: fixed;
+  display: block;
+  max-width:90vw;
+  top: 0%;
+  left: 0%;
+  right: 0;
+  bottom: 0;
+  background-color: #fffa;
+  z-index:1;
+  max-height: 100vh;
+}
+
+.modalContainer {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  min-width: 320px;
+  min-height: 200px;
+  background-color: white;
+  border: 1px solid gray;
+}
+
+.modalContainer > div {
+  width: 50%;
+}
+.modalContainer img {
+  object-fit: cover;
+  align-self: center;
+  height: 100%;
+  width: 50%;
 }
